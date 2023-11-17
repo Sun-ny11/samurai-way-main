@@ -1,11 +1,9 @@
 import React from "react";
 
-export const Header =() => {
+export const Header = () => {
    return (
-      <div>
-         <a href="">Home</a>
-         <a href="">Nwes Feed</a>
-         <a href="">Messages</a>
-      </div>
+      <header className="header">
+         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIc9OS9v7heyKbTw6uvxZ3Q3dYKUwet1140Q&usqp=CAU" alt="sswe" />
+      </header>
    );
 };

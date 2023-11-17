@@ -7,7 +7,36 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.App-wrap {
+  max-width: 1200px;
+  margin: 0px auto;
+  display: grid;
+
+  grid-template-areas:
+    "header header header"
+    "nav content content";
+  grid-template-rows: 60px 1fr;
+  grid-template-columns: 2fr 10fr;
+  grid-gap: 10px
+}
+
+.header {
+  grid-area: header;
+  background-color: green;
+}
+
+.header img {
+  width: 50px;
+}
+
+.nav {
+  grid-area: nav;
+  background-color: aqua;
+
+}
+
+.content {
+  grid-area: content;
+  background-color: aquamarine;
+
 }
