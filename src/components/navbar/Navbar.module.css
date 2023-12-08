@@ -1,10 +1,18 @@
 .nav {
    grid-area: nav;
    background-color: aqua;
+   list-style: none;
+}
+.nav ul{
 
+   list-style: none;
 }
 
+.item a{
+   color:white;
+   text-decoration: none;
+}
 
-.item.active {
+.item a.active {
    color:red
 }

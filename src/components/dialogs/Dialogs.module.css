@@ -1,10 +1,16 @@
-.nav {
-   grid-area: nav;
-   background-color: aqua;
-
+.message {
+   display: grid;
+   grid-template-columns: 2fr 10fr;
 }
 
+.itemName {
+   list-style: none;
+}
 
-.item.active {
-   color:red
+.item a{
+   color: white;
+   text-decoration: none;
+}
+.item .isActive {
+   color: red;
 }
