@@ -1,16 +1,25 @@
-import React from "react";
+import React, { FC } from "react";
 import s from "./Posts.module.css"
 import { Post } from "./post/Post";
+import { postDataType } from "../../..";
 
-export const Posts = () => {
+type PostsType = {
+   postsData: postDataType[]
+}
+
+export const Posts: FC<PostsType> = ({ postsData }) => {
    return (
       <div>
          <div>
             <div>new post</div>
             <textarea name="Post New"></textarea>
             <button>+</button>
-            <Post message="Hi!"/>
-            <Post message="My new account"/>
+            {postsData.map(el => {
+               return (
+                  <Post key={el.id} message={el.message} />
+               )
+            })}
+
          </div>
 
       </div>
