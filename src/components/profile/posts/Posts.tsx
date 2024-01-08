@@ -1,29 +1,30 @@
 import React, { FC, LegacyRef, RefObject } from "react";
 import s from "./Posts.module.css"
 import { Post } from "./post/Post";
-import { postDataType } from "../../../redux/state";
+import { addTaskAC, filterActionType, postDataType, updateTaskAC } from "../../../redux/state";
 
 
 type PostsType = {
    postsData: postDataType[]
-   addPost: () => void
    newPostText:string
-   updateNewPostText:(i: string)=>void
+   dispatch:(action:filterActionType)=>void
 
 }
 
-export const Posts: FC<PostsType> = ({ postsData, addPost,newPostText ,updateNewPostText}) => {
+export const Posts: FC<PostsType> = ({ postsData,newPostText ,dispatch}) => {
 
    let newPostRef: RefObject<HTMLTextAreaElement> = React.createRef();
    const onClickHandler = () => {
-         addPost()
+         // addPost()
+         dispatch(addTaskAC())
 
    }
 
    const onChangeHandler = () => {
       const text = newPostRef.current?.value
       if (text) {
-         updateNewPostText(text)
+         // updateNewPostText(text)
+         dispatch(updateTaskAC(text))
       }
 
    }

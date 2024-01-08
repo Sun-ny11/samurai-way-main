@@ -1,3 +1,5 @@
+import { dialogReducer } from "./dialog-reducer"
+import { postReducer } from "./post-reducer"
 
 export type userDataType = {
    id: string
@@ -15,10 +17,38 @@ export type postDataType = {
 
 export type stateType = {
    usersData: userDataType[]
-   massagesData: massagesDataType[]
+   dialogsPage: dialogsPageType
+   profilePage: profilePageType
+
+}
+
+export type profilePageType = {
    postsData: postDataType[]
    newPostText: string
 }
+export type dialogsPageType = {
+   massagesData: massagesDataType[]
+   sendNewMessage: string
+}
+export type filterActionType = addPostAction | updateTaskAction | sendMessageAction | updateMessageAction
+
+export type addPostAction = {
+   type: "ADD-POST"
+}
+export type updateTaskAction = {
+   type: "UPDATE-NEW-POST"
+   text: string
+}
+
+type sendMessageAction = {
+   type: "SEND-MESSAGE"
+
+}
+type updateMessageAction = {
+   type: "UPDATE-MESSAGE"
+   text: string
+}
+
 
 
 export const store = {
@@ -30,41 +60,89 @@ export const store = {
          { id: "4", name: "Nastya", avatar: "xxxx" },
          { id: "5", name: "Sasha", avatar: "xxxxx" },
       ],
-      // dialogsPage:{}
-      massagesData: [
-         { id: "1", message: "Hi, how are you" },
-         { id: "2", message: "Hi" },
-         { id: "3", message: "Hi, how are you" },
-         { id: "4", message: "Hi" },
-         { id: "5", message: "Hi, how are you" },
-      ],
+      dialogsPage: {
+         massagesData: [
+            { id: "1", message: "Hi, how are you" },
+            { id: "2", message: "Hi" },
+            { id: "3", message: "Hi, how are you" },
+            { id: "4", message: "Hi" },
+            { id: "5", message: "Hi, how are you" },
+         ],
+         sendNewMessage: "",
+      },
 
-      postsData: [
-         { id: "1", message: "Hi!" },
-         { id: "2", message: "My new account" },
-      ],
-      newPostText: ""
-   },
-   getState(){
-      return this._state
+      profilePage: {
+         postsData: [
+            { id: "1", message: "Hi!" },
+            { id: "2", message: "My new account" },
+         ],
+         newPostText: ""
+      },
+
    },
    _collSubscriber() {
    },
-   addPost() {
-      
+   _addPost() {
       const newPost: postDataType = {
          id: "3",
-         message: this._state.newPostText,
+         message: this._state.profilePage.newPostText,
       }
-      this._state.postsData.push(newPost)
+      this._state.profilePage.postsData.push(newPost)
       this._collSubscriber()
    },
-   updateNewPostText(value: string) {
-      this._state.newPostText = value
+   _updateNewPostText(value: string) {
+      this._state.profilePage.newPostText = value
       this._collSubscriber()
    },
+
+   getState() {
+      return this._state
+   },
+
+   dispatch(action: filterActionType) {
+
+      this._state.dialogsPage = dialogReducer(this._state.dialogsPage, action)
+      this._state.profilePage = postReducer(this._state.profilePage, action)
+
+      this._collSubscriber()
+
+      // switch (action.type) {
+      //    // case "ADD-POST": {
+      //    //    return this._addPost()
+      //    // }
+      //    // case "UPDATE-NEW-POST": {
+      //    //    return this._updateNewPostText(action.text)
+      //    // }
+      //    // case "UPDATE-MESSAGE": {
+      //    //    this._state.sendNewMessage = action.text
+      //    //    return this._collSubscriber()
+      //    // }
+      //    // case "SEND-MESSAGE":{
+      //    //    this._state.massagesData.push({id:"6", message:this._state.sendNewMessage})
+      //    //    return this._collSubscriber()
+      //    // }
+      // }
+
+   },
+
    subscribe(observer: () => void) {
       this._collSubscriber = observer
    },
 }
 
+
+
+export const addTaskAC = (): addPostAction => {
+   return { type: "ADD-POST" }
+}
+
+export const updateTaskAC = (text: string): updateTaskAction => {
+   return { type: "UPDATE-NEW-POST", text: text }
+}
+export const sendMessageAC = (): sendMessageAction => {
+   return { type: "SEND-MESSAGE" }
+}
+export const updateMessageAC = (text: string): updateMessageAction => {
+
+   return { type: "UPDATE-MESSAGE", text: text }
+}
