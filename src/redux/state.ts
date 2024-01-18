@@ -16,7 +16,7 @@ export type postDataType = {
 }
 
 export type stateType = {
-   usersData: userDataType[]
+   // usersData: userDataType[]
    dialogsPage: dialogsPageType
    profilePage: profilePageType
 
@@ -28,6 +28,7 @@ export type profilePageType = {
 }
 export type dialogsPageType = {
    massagesData: massagesDataType[]
+   usersData: userDataType[]
    sendNewMessage: string
 }
 export type filterActionType = addPostAction | updateTaskAction | sendMessageAction | updateMessageAction
@@ -53,13 +54,7 @@ type updateMessageAction = {
 
 export const store = {
    _state: {
-      usersData: [
-         { id: "1", name: "Dima", avatar: "x" },
-         { id: "2", name: "Masha", avatar: "xx" },
-         { id: "3", name: "Petya", avatar: "xxx" },
-         { id: "4", name: "Nastya", avatar: "xxxx" },
-         { id: "5", name: "Sasha", avatar: "xxxxx" },
-      ],
+
       dialogsPage: {
          massagesData: [
             { id: "1", message: "Hi, how are you" },
@@ -67,6 +62,13 @@ export const store = {
             { id: "3", message: "Hi, how are you" },
             { id: "4", message: "Hi" },
             { id: "5", message: "Hi, how are you" },
+         ],
+         usersData: [
+            { id: "1", name: "Dima", avatar: "x" },
+            { id: "2", name: "Masha", avatar: "xx" },
+            { id: "3", name: "Petya", avatar: "xxx" },
+            { id: "4", name: "Nastya", avatar: "xxxx" },
+            { id: "5", name: "Sasha", avatar: "xxxxx" },
          ],
          sendNewMessage: "",
       },
@@ -76,6 +78,7 @@ export const store = {
             { id: "1", message: "Hi!" },
             { id: "2", message: "My new account" },
          ],
+
          newPostText: ""
       },
 
@@ -143,6 +146,5 @@ export const sendMessageAC = (): sendMessageAction => {
    return { type: "SEND-MESSAGE" }
 }
 export const updateMessageAC = (text: string): updateMessageAction => {
-
    return { type: "UPDATE-MESSAGE", text: text }
 }

@@ -1,25 +1,28 @@
-import React, { ChangeEvent, FC, RefObject } from "react";
+import React, { ChangeEvent, FC } from "react";
 import s from './Dialogs.module.css'
 import { Messages, NameUserMessage } from "./message/Messages";
-import { filterActionType, massagesDataType, sendMessageAC, updateMessageAC, userDataType } from "../../redux/state";
+import { massagesDataType, userDataType } from "../../redux/state";
 
 
 type DialogsType = {
    massagesData: massagesDataType[]
    usersData: userDataType[]
    sendNewMessage: string
-   dispatch: (action: filterActionType) => void
+
+
+   updateNewMessageBody: (body: string) => void
+   sendMesOnClick: () => void
 
 }
 
-export const Dialogs: FC<DialogsType> = ({ massagesData, usersData, sendNewMessage, dispatch }) => {
-   debugger
+export const Dialogs: FC<DialogsType> = ({ massagesData, usersData, sendNewMessage, updateNewMessageBody, sendMesOnClick }) => {
+
    const onClickHandler = () => {
-      dispatch(sendMessageAC())
+      sendMesOnClick()
    }
 
    const onChangeMessageHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-      dispatch(updateMessageAC(e.currentTarget.value))
+      updateNewMessageBody(e.currentTarget.value)
    }
 
    return (
