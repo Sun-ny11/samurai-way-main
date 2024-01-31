@@ -1,9 +1,9 @@
-import React, { FC } from "react";
-import { Users } from "./Users";
+import React, { FC } from "react"
 import { AppRootReducerType } from "../../redux/store";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { followAC, setUsersAC, unFollowAC } from "../../redux/usersReducer";
+import { Users } from "./Users";
 
 
 const mapStateToProps = (state: AppRootReducerType) => {
