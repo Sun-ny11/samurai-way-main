@@ -15,7 +15,6 @@ export const rerenderEntireTree = (state: stateType) => {
       <Provider store={store}>
         <App />
       </Provider>
-
     </BrowserRouter>,
     document.getElementById('root')
   );
