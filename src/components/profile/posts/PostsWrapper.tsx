@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import { addTaskAC, updateTaskAC } from "../../../redux/state";
 import { Posts } from "./Posts";
 import { Dispatch } from "redux";
 import { AppRootReducerType } from "../../../redux/store";
 import { connect } from "react-redux";
+import { addPost, updatePost } from "../../../redux/post-reducer";
 
 
 const mapStateToProps = (state: AppRootReducerType) => {
@@ -15,10 +15,10 @@ const mapStateToProps = (state: AppRootReducerType) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
    return {
       newPostBody: (body: string) => {
-         dispatch(updateTaskAC(body))
+         dispatch(updatePost(body))
       },
       sendPostOnClick: () => {
-         dispatch(addTaskAC())
+         dispatch(addPost())
       },
 
    }

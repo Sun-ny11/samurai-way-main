@@ -104,10 +104,10 @@ export const store = {
 
    dispatch(action: filterActionType) {
 
-      this._state.dialogsPage = dialogReducer(this._state.dialogsPage, action)
-      this._state.profilePage = postReducer(this._state.profilePage, action)
+      // this._state.dialogsPage = dialogReducer(this._state.dialogsPage, action)
+      // this._state.profilePage = postReducer(this._state.profilePage, action)
 
-      this._collSubscriber()
+      // this._collSubscriber()
 
       // switch (action.type) {
       //    // case "ADD-POST": {
@@ -135,13 +135,13 @@ export const store = {
 
 
 
-export const addTaskAC = (): addPostAction => {
-   return { type: "ADD-POST" }
-}
+// export const addTaskAC = (): addPostAction => {
+//    return { type: "ADD-POST" }
+// }
 
-export const updateTaskAC = (text: string): updateTaskAction => {
-   return { type: "UPDATE-NEW-POST", text: text }
-}
+// export const updateTaskAC = (text: string): updateTaskAction => {
+//    return { type: "UPDATE-NEW-POST", text: text }
+// }
 export const sendMessageAC = (): sendMessageAction => {
    return { type: "SEND-MESSAGE" }
 }

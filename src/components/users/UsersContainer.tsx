@@ -1,11 +1,11 @@
 import { AppRootReducerType } from "../../redux/store";
-import { Dispatch } from "redux";
 import { connect } from "react-redux";
-import { changePageAC, followAC, setUsersAC, totalCountAC, unFollowAC } from "../../redux/usersReducer";
+import { changePage, follow, setUsers, toggleIsFetching, totalCount, unFollow } from "../../redux/usersReducer";
 import React from "react"
 import { userType } from "../../redux/usersReducer"
-import axios from 'axios';
 import { Users } from "./Users";
+import { Preloader } from "../common/preloader/Preloader";
+import { userApi } from "../../api/api";
 
 type UsersProps = {
    follow: (usersId: number) => void
@@ -16,23 +16,29 @@ type UsersProps = {
    totalUsersCount: number
    currentPage: number
    changePage: (page: number) => void
-   changeUsersCount: (count: number) => void
+   totalCount: (count: number) => void
+   toggleIsFetching: (status: boolean) => void
+   isFetching: boolean
 }
 
 export class ContainerComponent extends React.Component<UsersProps> {
 
    componentDidMount(): void {
-      axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(response => {
-         this.props.setUsers(response.data.items)
-         this.props.changeUsersCount(response.data.totalCount)
+      this.props.toggleIsFetching(true)
+      userApi.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
+         this.props.toggleIsFetching(false)
+         this.props.setUsers(data.items)
+         this.props.totalCount(data.totalCount)
       })
-   }
+   }//без {withCredentials:true} запрос тоже вернет пользователей но по умолчанию followed:false, т.к. не получит куку
 
 
    onClickChangePage = (page: number) => {
+      this.props.toggleIsFetching(true)
       this.props.changePage(page)
-      axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${this.props.pageSize}`).then(response => {
-         this.props.setUsers(response.data.items)
+      userApi.changePage(page, this.props.pageSize).then(data => {
+         this.props.toggleIsFetching(false)
+         this.props.setUsers(data.items)
       })
    }
 
@@ -47,13 +53,16 @@ export class ContainerComponent extends React.Component<UsersProps> {
          pages.push(i)
       }
 
-      return <Users onClickChangePage={this.onClickChangePage}
-         pages={pages}
-         currentPage={this.props.currentPage}
-         items={this.props.items}
-         follow={this.props.follow}
-         unFollow={this.props.unFollow}
-      />
+      return <>
+         {this.props.isFetching ? <Preloader /> : null}
+         <Users onClickChangePage={this.onClickChangePage}
+            pages={pages}
+            currentPage={this.props.currentPage}
+            items={this.props.items}
+            follow={this.props.follow}
+            unFollow={this.props.unFollow}
+         />
+      </>
    }
 }
 
@@ -64,27 +73,11 @@ const mapStateToProps = (state: AppRootReducerType) => {
       items: state.userReducer.items,
       pageSize: state.userReducer.pageSize,
       totalUsersCount: state.userReducer.totalUsersCount,
-      currentPage: state.userReducer.currentPage
-   }
-}
-const mapDispatchToProps = (dispatch: Dispatch) => {
-   return {
-      follow: (usersId: number) => {
-         dispatch(followAC(usersId))
-      },
-      unFollow: (usersId: number) => {
-         dispatch(unFollowAC(usersId))
-      },
-      setUsers: (users: any) => {
-         dispatch(setUsersAC(users))
-      },
-      changePage: (page: number) => {
-         dispatch(changePageAC(page))
-      },
-      changeUsersCount: (count: number) => {
-         dispatch(totalCountAC(count))
-      }
+      currentPage: state.userReducer.currentPage,
+      isFetching: state.userReducer.isFetching
    }
 }
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(ContainerComponent)
+export const UsersContainer = connect(mapStateToProps, { follow, unFollow, setUsers, changePage, totalCount, toggleIsFetching })(ContainerComponent)
+//connect(пропсы для компоненты, функции dispatch в пропсах)
+//функции dispatch это автоматически созданный callBack а не ActionCreator:  .... follow => dispatch(follow(..,..))

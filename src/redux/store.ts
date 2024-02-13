@@ -2,12 +2,14 @@
    import { postReducer } from "./post-reducer";
    import { dialogReducer } from "./dialog-reducer";
 import { userReducer } from "./usersReducer";
+import { authReducer } from "./auth-reducer";
 
 
    const reducers = combineReducers({
       profilePage: postReducer,
       dialogsPage: dialogReducer,
-      userReducer:userReducer
+      userReducer:userReducer,
+      auth:authReducer
    })
 
    export const store = createStore(reducers)
