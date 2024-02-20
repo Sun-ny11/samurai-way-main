@@ -1,11 +1,8 @@
 import React from "react";
 import { Header } from "./Header";
-import axios from "axios";
-import { RouteComponentProps, withRouter } from "react-router-dom";
 import { AppRootReducerType } from "../../redux/store";
 import { connect } from "react-redux";
-import { setUserData } from "../../redux/auth-reducer";
-import { authApi } from "../../api/api";
+import { authorization } from "../../redux/auth-reducer";
 
 // type PathParamsType = {//ожидаемые параметры
 //    userId: string,
@@ -17,7 +14,7 @@ type mapStateToProps = {
 }
 
 type mapDespatchToProps = {
-   setUserData: (id: number, email: string, login: string) => void
+   authorization: () => void
 }
 
 type ownPropsType = mapDespatchToProps & mapStateToProps
@@ -28,15 +25,7 @@ type ownPropsType = mapDespatchToProps & mapStateToProps
 
 export class ContainerComponent extends React.Component<ownPropsType> {
    componentDidMount(): void {
-      authApi.authMe()
-         .then(data => {
-            if (data.resultCode === 0) {
-               const { id, email, login } = data.data
-               this.props.setUserData(id, email, login)
-            }
-         })
-      console.log(this.props);
-
+      this.props.authorization()
    }
    render() {
       return (
@@ -54,4 +43,4 @@ const mapStateToProps = (state: AppRootReducerType) => {
    }
 }
 
-export const HeaderContainer = connect(mapStateToProps, { setUserData })(ContainerComponent)
+export const HeaderContainer = connect(mapStateToProps, { authorization })(ContainerComponent)

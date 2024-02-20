@@ -2,8 +2,7 @@ import React from "react";
 import { AppRootReducerType } from "../../redux/store";
 import { connect } from "react-redux";
 import { Profile } from "./Profile";
-import axios from "axios";
-import { responseProfileType, setProfile } from "../../redux/post-reducer";
+import { goToProfileTC, responseProfileType } from "../../redux/post-reducer";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 
 type PathParamsType = {//ожидаемые параметры
@@ -15,7 +14,7 @@ type mapStateToProps = {
 }
 
 type mapDespatchToProps = {
-   setProfile: (profile: responseProfileType) => void
+   goToProfileTC: (userId: number) => void
 }
 
 type ownPropsType = mapStateToProps & mapDespatchToProps
@@ -30,11 +29,7 @@ export class ContainerComponent extends React.Component<ProfileProps> {
       if (!userId) {//если userId не указан в URLпараметре, (/profile)
          userId = "29113" //будет id личного профиля
       }
-      axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
-         .then(res => {
-            this.props.setProfile(res.data)
-         })
-      console.log(this.props);
+      this.props.goToProfileTC(+userId)
 
    }
    render() {
@@ -52,4 +47,4 @@ const mapStateToProps = (state: AppRootReducerType) => {
    }
 }
 
-export const ProfileContainer = connect(mapStateToProps, { setProfile })(ComponentWithUrl)
+export const ProfileContainer = connect(mapStateToProps, { goToProfileTC })(ComponentWithUrl)

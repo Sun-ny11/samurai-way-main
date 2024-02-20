@@ -1,9 +1,13 @@
+import { follow } from './usersReducer';
 import { addPostAction, postDataType, updateTaskAction } from "./state"
+import { Dispatch } from 'redux';
+import { profileApi, userApi } from '../api/api';
 
 export type profilePageType = {
    postsData: postDataType[]
    newPostText: string
    profile: responseProfileType
+   followingInProgress: number[]
 }
 
 const initialState: profilePageType = {
@@ -32,8 +36,9 @@ const initialState: profilePageType = {
          small: '',
          large: ''
       }
-   }
-
+   },
+   //{} as responseProfileType можно использовать вместо ...
+   followingInProgress: []
 }
 
 export type responseProfileType = {
@@ -59,10 +64,11 @@ type photosType = {
    small: string
    large: string
 }
-type actionType = addPostType | updatePostType | setProfileType
+type actionType = addPostType | updatePostType | setProfileType | followingInProgressActionType
 type addPostType = ReturnType<typeof addPost>
 type updatePostType = ReturnType<typeof updatePost>
 type setProfileType = ReturnType<typeof setProfile>
+type followingInProgressActionType = ReturnType<typeof followingInProgressAction>
 
 
 export const postReducer = (state: profilePageType = initialState, action: actionType): profilePageType => {
@@ -83,6 +89,12 @@ export const postReducer = (state: profilePageType = initialState, action: actio
       }
       case "SET-PROFILE": {
          return { ...state, profile: action.profile }
+      }
+      case 'FOLLOWING-IN-PROGRESS': {
+
+         return action.inProgress ? { ...state, followingInProgress: [...state.followingInProgress, action.id] }
+            : { ...state, followingInProgress: state.followingInProgress.filter(id => id !== action.id) }
+         // return 
       }
       default: return state
    }
@@ -108,4 +120,22 @@ export const setProfile = (profile: responseProfileType) => {
       type: "SET-PROFILE",
       profile
    } as const
+}
+export const followingInProgressAction = (inProgress: boolean, id: number) => {
+   return {
+      type: "FOLLOWING-IN-PROGRESS",
+      inProgress,
+      id
+   } as const
+}//?????????
+
+
+
+
+
+export const goToProfileTC = (userId: number) => (dispatch: Dispatch) => {
+   return profileApi.getProfile(userId)
+      .then(res => {
+         dispatch(setProfile(res.data))
+      })
 }

@@ -18,11 +18,25 @@ export const userApi = {
    changePage(page: number, pageSize: number) {
       return instance.get(`/users?page=${page}&count=${pageSize}`)
          .then(res => res.data)
-   }
+   },
+   following(id:number){
+      return instance.post(`follow/${id}`)
+      .then(res=>res.data)
+   },
+   unFollowing(id:number){
+      return instance.delete(`follow/${id}`)
+      .then(res=>res.data)
+   },
+
+}
+export const profileApi = {
+   getProfile(userId:number){
+      return instance.get(`profile/${userId}`)
+   },
 }
 export const authApi = {
    authMe() {
       return instance.get(`/auth/me`)
          .then(res => res.data)
-   }
+   },
 }

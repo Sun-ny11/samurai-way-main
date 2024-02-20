@@ -1,3 +1,7 @@
+import { followingInProgressAction } from "./post-reducer"
+import { userApi } from "../api/api"
+import { Dispatch } from "redux"
+
 type initialStateType = {
    items: userType[]
    pageSize: number
@@ -94,4 +98,42 @@ export const toggleIsFetching = (status: boolean) => {
       type: "TOGGLE-IS-FETCHING",
       status
    } as const
+}
+
+export const followTC = (id: number) => (dispatch: Dispatch) => {
+   dispatch(followingInProgressAction(true, id))
+   return userApi.following(id)
+      .then(data => {
+         if (data.resultCode === 0) {
+            dispatch(follow(id))
+         }
+         dispatch(followingInProgressAction(false, id))
+      })
+}
+export const unFollowTC = (id: number) => (dispatch: Dispatch) => {
+   dispatch(followingInProgressAction(true, id))
+   return userApi.unFollowing(id)
+      .then(data => {
+         if (data.resultCode === 0) {
+            dispatch(unFollow(id))
+         }
+         dispatch(followingInProgressAction(false, id))
+      })
+}
+export const getUsersTC = (currentPage: number, pageSize: number) => (dispatch: Dispatch) => {
+   dispatch(toggleIsFetching(true))
+   return userApi.getUsers(currentPage, pageSize)
+      .then(data => {
+         dispatch(toggleIsFetching(false))
+         dispatch(setUsers(data.items))
+         dispatch(totalCount(data.totalCount))
+      })
+}
+export const changePageTC = (page: number, pageSize: number) => (dispatch: Dispatch) => {
+   dispatch(toggleIsFetching(true))
+   dispatch(changePage(page))
+   return userApi.changePage(page, pageSize).then(data => {
+      dispatch(toggleIsFetching(false))
+      dispatch(setUsers(data.items))
+   })
 }

@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
 import './App.css';
-import { Header } from './components/header/Header';
 import { NavBar } from './components/navbar/NavBar';
-import { Profile } from './components/profile/Profile';
 import { Route } from 'react-router-dom';
 import { News } from './components/news/News';
 import { Musics } from './components/musics/Musics';
@@ -24,7 +22,7 @@ const App: FC<AppType> = ({ }) => {
       <NavBar />
       <div className='app-wrapper-content'>
         <Route path='/messages' render={() => <DialogsWrapper />} />
-         <Route path='/profile/:userId?' render={() => <ProfileContainer />} /> {/*параметр в path говорит о том что, userId опциональный */}
+        <Route path='/profile/:userId?' render={() => <ProfileContainer />} /> {/*параметр в path говорит о том что, userId опциональный */}
         <Route path='/users' render={() => <UsersContainer />} />
         <Route path='/news' component={News} />
         <Route path='/musics' component={Musics} />
