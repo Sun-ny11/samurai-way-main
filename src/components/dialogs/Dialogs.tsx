@@ -2,9 +2,11 @@ import React, { ChangeEvent, FC } from "react";
 import s from './Dialogs.module.css'
 import { Messages, NameUserMessage } from "./message/Messages";
 import { massagesDataType, userDataType } from "../../redux/state";
+import { Login } from "../login/Login";
+import { Redirect } from "react-router-dom";
 
 
-type DialogsType = {
+export type DialogsType = {
    massagesData: massagesDataType[]
    usersData: userDataType[]
    sendNewMessage: string
@@ -12,10 +14,11 @@ type DialogsType = {
 
    updateNewMessageBody: (body: string) => void
    sendMesOnClick: () => void
+   isAuth: boolean
 
 }
 
-export const Dialogs: FC<DialogsType> = ({ massagesData, usersData, sendNewMessage, updateNewMessageBody, sendMesOnClick }) => {
+export const Dialogs: FC<DialogsType> = ({ massagesData, usersData, sendNewMessage, updateNewMessageBody, sendMesOnClick, isAuth }) => {
 
    const onClickHandler = () => {
       sendMesOnClick()
@@ -24,6 +27,7 @@ export const Dialogs: FC<DialogsType> = ({ massagesData, usersData, sendNewMessa
    const onChangeMessageHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
       updateNewMessageBody(e.currentTarget.value)
    }
+
 
    return (
       <div className={s.message}>

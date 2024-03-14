@@ -3,21 +3,23 @@ import { AppRootReducerType } from "../../redux/store";
 import { connect } from "react-redux";
 import { Profile } from "./Profile";
 import { goToProfileTC, responseProfileType } from "../../redux/post-reducer";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import { Redirect, RouteComponentProps, withRouter } from "react-router-dom";
+import { WithAuthRedirect } from "../../hoc/withAuthRedirect";
 
 type PathParamsType = {//ожидаемые параметры
    userId: string,
 }
 
-type mapStateToProps = {
+type mapStateToPropsType = {
    profile: responseProfileType
+   isAuth: boolean
 }
 
 type mapDespatchToProps = {
    goToProfileTC: (userId: number) => void
 }
 
-type ownPropsType = mapStateToProps & mapDespatchToProps
+type ownPropsType = mapStateToPropsType & mapDespatchToProps
 
 type ProfileProps = RouteComponentProps<PathParamsType> & ownPropsType
 
@@ -39,11 +41,16 @@ export class ContainerComponent extends React.Component<ProfileProps> {
    }
 }
 
-const ComponentWithUrl = withRouter(ContainerComponent)
+const AuthRedirectComponent = WithAuthRedirect(ContainerComponent)
 
-const mapStateToProps = (state: AppRootReducerType) => {
+const ComponentWithUrl = withRouter(AuthRedirectComponent)
+
+
+
+const mapStateToProps = (state: AppRootReducerType):mapStateToPropsType => {
    return {
-      profile: state.profilePage.profile
+      profile: state.profilePage.profile,
+      isAuth: state.auth.isAuth
    }
 }
 
