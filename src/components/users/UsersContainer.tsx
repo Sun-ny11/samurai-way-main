@@ -5,6 +5,8 @@ import React from "react"
 import { userType } from "../../redux/usersReducer"
 import { Users } from "./Users";
 import { Preloader } from "../common/preloader/Preloader";
+import { compose } from "redux";
+import { WithAuthRedirect } from "../../hoc/withAuthRedirect";
 
 type UsersProps = {
    items: userType[]
@@ -65,7 +67,12 @@ const mapStateToProps = (state: AppRootReducerType) => {
    }
 }
 
-export const UsersContainer = connect(mapStateToProps,
-   { changePage, getUsersTC, changePageTC })(ContainerComponent)
+export const UsersContainer = compose<React.ComponentType>(
+   WithAuthRedirect,
+   connect(mapStateToProps, { changePage, getUsersTC, changePageTC })
+)(ContainerComponent)
+
+// export const UsersContainer = connect(mapStateToProps,
+//    { changePage, getUsersTC, changePageTC })(ContainerComponent)
 //connect(пропсы для компоненты, функции dispatch в пропсах)
 //функции dispatch это автоматически созданный callBack а не ActionCreator:  .... follow => dispatch(follow(..,..))

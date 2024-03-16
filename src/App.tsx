@@ -4,11 +4,11 @@ import { NavBar } from './components/navbar/NavBar';
 import { Route } from 'react-router-dom';
 import { News } from './components/news/News';
 import { Musics } from './components/musics/Musics';
-import { DialogsWrapper } from './components/dialogs/DialogsWrapper';
 import { UsersContainer } from './components/users/UsersContainer';
 import { ProfileContainer } from './components/profile/ProfileContainer';
 import { HeaderContainer } from './components/header/HeaderContainer';
 import { Login } from './components/login/Login';
+import { DialogsContainer } from './components/dialogs/DialogsWrapper';
 
 type AppType = {
 
@@ -22,7 +22,7 @@ const App: FC<AppType> = ({ }) => {
       <HeaderContainer />
       <NavBar />
       <div className='app-wrapper-content'>
-        <Route path='/messages' render={() => <DialogsWrapper />} />
+        <Route path='/messages' render={() => <DialogsContainer />} />
         <Route path='/login' render={() => <Login />} />
         <Route path='/profile/:userId?' render={() => <ProfileContainer />} /> {/*параметр в path говорит о том что, userId опциональный */}
         <Route path='/users' render={() => <UsersContainer />} />

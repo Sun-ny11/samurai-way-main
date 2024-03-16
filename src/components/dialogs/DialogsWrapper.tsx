@@ -1,6 +1,6 @@
 import { sendMessageAC, updateMessageAC, } from "../../redux/state";
-import { Dispatch } from "redux";
-import { Dialogs,  } from "./Dialogs";
+import { Dispatch, compose } from "redux";
+import { Dialogs, } from "./Dialogs";
 import { connect } from "react-redux";
 import { AppRootReducerType } from "../../redux/store";
 import { WithAuthRedirect } from "../../hoc/withAuthRedirect";
@@ -26,6 +26,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       }
    }
 }
-const AuthRedirectComponent = WithAuthRedirect(Dialogs)
 
-export const DialogsWrapper = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
+
+export const DialogsContainer = compose<React.ComponentType>(
+   connect(mapStateToProps, mapDispatchToProps),
+   WithAuthRedirect,
+)(Dialogs)
+
+
