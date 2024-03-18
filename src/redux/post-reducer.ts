@@ -8,6 +8,7 @@ export type profilePageType = {
    newPostText: string
    profile: responseProfileType
    followingInProgress: number[]
+   status: string
 }
 
 const initialState: profilePageType = {
@@ -38,7 +39,8 @@ const initialState: profilePageType = {
       }
    },
    //{} as responseProfileType можно использовать вместо ...
-   followingInProgress: []
+   followingInProgress: [],
+   status: ""
 }
 
 export type responseProfileType = {
@@ -64,11 +66,12 @@ type photosType = {
    small: string
    large: string
 }
-type actionType = addPostType | updatePostType | setProfileType | followingInProgressActionType
+type actionType = addPostType | updatePostType | setProfileType | followingInProgressActionType | setStatusType
 type addPostType = ReturnType<typeof addPost>
 type updatePostType = ReturnType<typeof updatePost>
 type setProfileType = ReturnType<typeof setProfile>
 type followingInProgressActionType = ReturnType<typeof followingInProgressAction>
+type setStatusType = ReturnType<typeof setStatus>
 
 
 export const postReducer = (state: profilePageType = initialState, action: actionType): profilePageType => {
@@ -95,6 +98,9 @@ export const postReducer = (state: profilePageType = initialState, action: actio
          return action.inProgress ? { ...state, followingInProgress: [...state.followingInProgress, action.id] }
             : { ...state, followingInProgress: state.followingInProgress.filter(id => id !== action.id) }
          // return 
+      }
+      case 'SET-STATUS': {
+         return { ...state, status: action.status }
       }
       default: return state
    }
@@ -129,6 +135,13 @@ export const followingInProgressAction = (inProgress: boolean, id: number) => {
    } as const
 }//?????????
 
+export const setStatus = (status: string) => {
+   return {
+      type: "SET-STATUS",
+      status
+   } as const
+}
+
 
 
 
@@ -138,4 +151,19 @@ export const goToProfileTC = (userId: number) => (dispatch: Dispatch) => {
       .then(res => {
          dispatch(setProfile(res.data))
       })
+}
+
+export const getUserStatus = (userId: number) => (dispatch: Dispatch) => {
+   return profileApi.getStatus(userId)
+      .then(res => dispatch(setStatus(res.data)))
+}
+
+export const updateUserStatus = (status: string) => (dispatch: Dispatch) => {
+   return profileApi.updateStatus(status)
+      .then(res => {
+         if (res.data.resultCode === 0) {
+            dispatch(setStatus(status))
+         }
+      }
+      )
 }

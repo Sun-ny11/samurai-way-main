@@ -8,16 +8,20 @@ import { ProfileStatus } from "./posts/ProfileStatus";
 
 type ProfileType = {
    profile: responseProfileType
+   status: string
+   updateUserStatus: (status: string) => void
+
 }
 
-export const Profile: FC<ProfileType> = ({ profile }) => {
+export const Profile: FC<ProfileType> = ({ profile, status, updateUserStatus }) => {
+
    return (
       <main className={s.content}>
          {/* <AvatarBlock profile={profile}/> */}
 
          <div>
             <img src={profile.photos.small} alt="ava" />
-            <ProfileStatus status={"EEEq"} />
+            <ProfileStatus status={status} updateUserStatus={updateUserStatus} />
             <p>About me: {profile.aboutMe}</p>
             <hr />
             <div>
