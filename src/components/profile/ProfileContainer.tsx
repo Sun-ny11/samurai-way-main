@@ -39,9 +39,8 @@ export class ContainerComponent extends React.Component<ProfileProps> {
       }
       this.props.goToProfileTC(+userId)
       this.props.getUserStatus(+userId)
-      // this.props.updateUserStatus("23w333wwww2")
-
    }
+
    render() {
       return (
          <Profile {...this.props} />
