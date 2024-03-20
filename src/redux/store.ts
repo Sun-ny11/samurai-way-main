@@ -1,10 +1,11 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
-import { postReducer } from "./post-reducer";
+import { actionPostType, postReducer } from "./post-reducer";
 import { dialogReducer } from "./dialog-reducer";
-import { userReducer } from "./usersReducer";
-import { authReducer } from "./auth-reducer";
-import thunk from "redux-thunk";
-import { reducer as formReducer } from "redux-form";
+import { userReducer, usersStateType } from "./usersReducer";
+import { actionAuthType, authReducer, stateAuthType } from "./auth-reducer";
+import thunk, { ThunkAction } from "redux-thunk";
+import { FormReducer, reducer as formReducer } from "redux-form";
+import { dialogsPageType, filterActionType } from "./state";
 
 
 const reducers = combineReducers({
@@ -18,7 +19,11 @@ const reducers = combineReducers({
 export const store = createStore(reducers, applyMiddleware(thunk))
 
 export type AppRootReducerType = ReturnType<typeof reducers>
+//Чтобы диспатчить санку в санку, общий тип
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootReducerType, unknown, AppAllReducerType>
 
+//Общий тип всех reducer action
+export type AppAllReducerType =   actionPostType | filterActionType| actionAuthType
 
 // @ts-ignore
 window.store = store

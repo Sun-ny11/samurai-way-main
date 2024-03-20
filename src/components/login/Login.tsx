@@ -30,15 +30,17 @@ const LoginReduxForm = reduxForm<FormDataType>({
    form: 'login'
 })(LoginForm)
 
+
+
+
 type LoginProps = {
-   loginThunk: (data:FormDataType) => void
+   loginThunk: (data: FormDataType) => void
 }
 
-export const Login = (props:LoginProps) => {
-   
+export const Login = (props: LoginProps) => {
+
    const onSubmit = (formData: FormDataType) => {
       props.loginThunk(formData)
-      console.log(formData);
    }
    return (
       <>

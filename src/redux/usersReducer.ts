@@ -2,7 +2,7 @@ import { followingInProgressAction } from "./post-reducer"
 import { userApi } from "../api/api"
 import { Dispatch } from "redux"
 
-type initialStateType = {
+export type usersStateType = {
    items: userType[]
    pageSize: number
    totalUsersCount: number
@@ -27,7 +27,7 @@ const initialState = {
    isFetching: false
 }
 
-export const userReducer = (state: initialStateType = initialState, action: actionType): initialStateType => {
+export const userReducer = (state: usersStateType = initialState, action: actionUserType): usersStateType => {
    switch (action.type) {
       case "FOLLOW": {
          return { ...state, items: state.items.map(el => el.id === action.userID ? { ...el, followed: true } : el) }
@@ -53,7 +53,7 @@ export const userReducer = (state: initialStateType = initialState, action: acti
 }
 
 
-type actionType = followACType | unFollowACType | setUsersACType | changePageACType | totalCountACType | toggleIsFetchingACType
+export type actionUserType = followACType | unFollowACType | setUsersACType | changePageACType | totalCountACType | toggleIsFetchingACType
 
 type followACType = ReturnType<typeof follow>
 type unFollowACType = ReturnType<typeof unFollow>

@@ -1,14 +1,16 @@
 import { Dispatch } from 'redux';
 import { authApi } from "../api/api"
 import { FormDataType } from '../components/login/Login';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppAllReducerType, AppRootReducerType } from './store';
 
-type stateAuthType = {
+export type stateAuthType = {
    id: number
    email: string
    login: string
    isAuth: boolean
 }
-type actionType = setUserDataType
+export type actionAuthType = setUserDataType
 type setUserDataType = ReturnType<typeof setUserData>
 
 
@@ -18,7 +20,7 @@ const initialState = {
    login: "",
    isAuth: false
 }
-export const authReducer = (state: stateAuthType = initialState, action: actionType): stateAuthType => {
+export const authReducer = (state: stateAuthType = initialState, action: actionAuthType): stateAuthType => {
    switch (action.type) {
       case "SET-USER-DATA": {
          return { ...state, ...action.data, isAuth: true }
@@ -38,7 +40,6 @@ export const setUserData = (id: number, email: string, login: string) => {
 export const authorization = () => (dispatch: Dispatch) => {
    return authApi.authMe()
       .then(data => {
-
          if (data.resultCode === 0) {
             const { id, email, login } = data.data
 
@@ -47,12 +48,10 @@ export const authorization = () => (dispatch: Dispatch) => {
       })
 }
 
-export const loginThunk = (data: FormDataType) => (dispatch: Dispatch) => {
-   return authApi.login(data)
+export const loginThunk = (data: FormDataType) => async (dispatch: ThunkDispatch<AppRootReducerType, null, AppAllReducerType>) => {
+   
+   return await authApi.login(data)
       .then(res => {
-         debugger
-         // if (res.resultCode === 0) {
-
-         // }
+         dispatch(authorization())
       })
 }

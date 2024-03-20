@@ -66,7 +66,7 @@ type photosType = {
    small: string
    large: string
 }
-type actionType = addPostType | updatePostType | setProfileType | followingInProgressActionType | setStatusType
+export type actionPostType = addPostType | updatePostType | setProfileType | followingInProgressActionType | setStatusType
 type addPostType = ReturnType<typeof addPost>
 type updatePostType = ReturnType<typeof updatePost>
 type setProfileType = ReturnType<typeof setProfile>
@@ -74,7 +74,7 @@ type followingInProgressActionType = ReturnType<typeof followingInProgressAction
 type setStatusType = ReturnType<typeof setStatus>
 
 
-export const postReducer = (state: profilePageType = initialState, action: actionType): profilePageType => {
+export const postReducer = (state: profilePageType = initialState, action: actionPostType): profilePageType => {
    switch (action.type) {
       case "ADD-POST": {
          const newPost: postDataType = {
