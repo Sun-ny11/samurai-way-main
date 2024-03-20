@@ -1,4 +1,5 @@
 import axios from "axios";
+import { FormDataType } from "../components/login/Login";
 
 const settings = {
    withCredentials: true,
@@ -45,4 +46,7 @@ export const authApi = {
       return instance.get(`/auth/me`)
          .then(res => res.data)
    },
+   login(data:FormDataType) {
+      return instance.post("auth/login", data)
+   }
 }

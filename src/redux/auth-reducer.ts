@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 import { authApi } from "../api/api"
+import { FormDataType } from '../components/login/Login';
 
 type stateAuthType = {
    id: number
@@ -34,14 +35,24 @@ export const setUserData = (id: number, email: string, login: string) => {
    } as const
 }
 
-export const authorization = () => (dispatch:Dispatch) => {
+export const authorization = () => (dispatch: Dispatch) => {
    return authApi.authMe()
       .then(data => {
-         
+
          if (data.resultCode === 0) {
             const { id, email, login } = data.data
-            
+
             dispatch(setUserData(id, email, login))
          }
+      })
+}
+
+export const loginThunk = (data: FormDataType) => (dispatch: Dispatch) => {
+   return authApi.login(data)
+      .then(res => {
+         debugger
+         // if (res.resultCode === 0) {
+
+         // }
       })
 }

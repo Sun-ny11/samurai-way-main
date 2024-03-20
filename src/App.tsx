@@ -9,6 +9,7 @@ import { ProfileContainer } from './components/profile/ProfileContainer';
 import { HeaderContainer } from './components/header/HeaderContainer';
 import { Login } from './components/login/Login';
 import { DialogsContainer } from './components/dialogs/DialogsWrapper';
+import { LoginContainer } from './components/login/LoginContainer';
 
 type AppType = {
 
@@ -23,7 +24,7 @@ const App: FC<AppType> = ({ }) => {
       <NavBar />
       <div className='app-wrapper-content'>
         <Route path='/messages' render={() => <DialogsContainer />} />
-        <Route path='/login' render={() => <Login />} />
+        <Route path='/login' render={() => <LoginContainer />} />
         <Route path='/profile/:userId?' render={() => <ProfileContainer />} /> {/*параметр в path говорит о том что, userId опциональный */}
         <Route path='/users' render={() => <UsersContainer />} />
         <Route path='/news' component={News} />

@@ -1,7 +1,7 @@
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
 
-type FormDataType = {
-   login: string
+export type FormDataType = {
+   email: string
    password: string
    rememberMe: boolean
 }
@@ -12,7 +12,7 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
       <form onSubmit={props.handleSubmit}>
          <p>Login</p>
          <div>
-            <Field placeholder="Login" name={"login"} component={"input"} />
+            <Field placeholder="email" name={"email"} component={"input"} />
          </div>
          <div>
             <Field placeholder="Password" name={"password"} component={"input"} />
@@ -30,10 +30,14 @@ const LoginReduxForm = reduxForm<FormDataType>({
    form: 'login'
 })(LoginForm)
 
+type LoginProps = {
+   loginThunk: (data:FormDataType) => void
+}
 
-
-export const Login = () => {
+export const Login = (props:LoginProps) => {
+   
    const onSubmit = (formData: FormDataType) => {
+      props.loginThunk(formData)
       console.log(formData);
    }
    return (
