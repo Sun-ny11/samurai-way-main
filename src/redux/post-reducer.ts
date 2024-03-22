@@ -5,7 +5,6 @@ import { profileApi, userApi } from '../api/api';
 
 export type profilePageType = {
    postsData: postDataType[]
-   newPostText: string
    profile: responseProfileType
    followingInProgress: number[]
    status: string
@@ -16,7 +15,6 @@ const initialState: profilePageType = {
       { id: "1", message: "Hi!" },
       { id: "2", message: "My new account" },
    ],
-   newPostText: "",
    profile: {
       aboutMe: '',
       contacts: {
@@ -66,9 +64,8 @@ type photosType = {
    small: string
    large: string
 }
-export type actionPostType = addPostType | updatePostType | setProfileType | followingInProgressActionType | setStatusType
+export type actionPostType = addPostType | setProfileType | followingInProgressActionType | setStatusType
 type addPostType = ReturnType<typeof addPost>
-type updatePostType = ReturnType<typeof updatePost>
 type setProfileType = ReturnType<typeof setProfile>
 type followingInProgressActionType = ReturnType<typeof followingInProgressAction>
 type setStatusType = ReturnType<typeof setStatus>
@@ -79,17 +76,14 @@ export const postReducer = (state: profilePageType = initialState, action: actio
       case "ADD-POST": {
          const newPost: postDataType = {
             id: "3",
-            message: state.newPostText,
+            message: action.text,
          }
          return {
             ...state,
             postsData: [...state.postsData, newPost],
-            newPostText: ""
          }
       }
-      case "UPDATE-NEW-POST": {
-         return { ...state, newPostText: action.text }
-      }
+
       case "SET-PROFILE": {
          return { ...state, profile: action.profile }
       }
@@ -107,19 +101,14 @@ export const postReducer = (state: profilePageType = initialState, action: actio
 }
 
 
-export const addPost = (): addPostAction => {
+export const addPost = (text: string) => {
    return {
-      type: "ADD-POST"
+      type: "ADD-POST",
+      text
    } as const
 }
 
 
-export const updatePost = (text: string): updateTaskAction => {
-   return {
-      type: "UPDATE-NEW-POST",
-      text: text
-   } as const
-}
 
 export const setProfile = (profile: responseProfileType) => {
    return {

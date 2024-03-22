@@ -1,9 +1,9 @@
-import React, { ChangeEvent, FC } from "react";
+import React, { FC } from "react";
 import s from './Dialogs.module.css'
 import { Messages, NameUserMessage } from "./message/Messages";
 import { massagesDataType, userDataType } from "../../redux/state";
-import { Login } from "../login/Login";
-import { Redirect } from "react-router-dom";
+
+import { DialogsForm } from "./DialogsForm";
 
 
 export type DialogsType = {
@@ -13,21 +13,12 @@ export type DialogsType = {
 
 
    updateNewMessageBody: (body: string) => void
-   sendMesOnClick: () => void
+   sendMesOnClick: (message: string) => void
    isAuth: boolean
 
 }
 
-export const Dialogs: FC<DialogsType> = ({ massagesData, usersData, sendNewMessage, updateNewMessageBody, sendMesOnClick, isAuth }) => {
-
-   const onClickHandler = () => {
-      sendMesOnClick()
-   }
-
-   const onChangeMessageHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-      updateNewMessageBody(e.currentTarget.value)
-   }
-
+export const Dialogs: FC<DialogsType> = ({ massagesData, usersData, sendMesOnClick, isAuth }) => {
 
    return (
       <div className={s.message}>
@@ -52,8 +43,8 @@ export const Dialogs: FC<DialogsType> = ({ massagesData, usersData, sendNewMessa
          </div>
 
          <div>
-            <textarea value={sendNewMessage} onChange={onChangeMessageHandler}></textarea>
-            <button onClick={onClickHandler}>Send</button>
+
+            <DialogsForm sendMesOnClick={sendMesOnClick} />
          </div>
 
       </div>

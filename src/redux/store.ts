@@ -23,7 +23,7 @@ export type AppRootReducerType = ReturnType<typeof reducers>
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootReducerType, unknown, AppAllReducerType>
 
 //Общий тип всех reducer action
-export type AppAllReducerType =   actionPostType | filterActionType| actionAuthType
+export type AppAllReducerType = actionPostType | filterActionType | actionAuthType
 
 // @ts-ignore
 window.store = store

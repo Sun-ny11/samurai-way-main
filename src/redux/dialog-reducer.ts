@@ -15,19 +15,24 @@ const initialState: dialogsPageType = {
       { id: "4", name: "Nastya", avatar: "xxxx" },
       { id: "5", name: "Sasha", avatar: "xxxxx" },
    ],
-   sendNewMessage: "",
+}
+type sendMessageAction = {
+   type: "SEND-MESSAGE"
+   message: string
+
 }
 
 export const dialogReducer = (state: dialogsPageType = initialState, action: filterActionType): dialogsPageType => {
 
    switch (action.type) {
-      case "UPDATE-MESSAGE": {
-         return { ...state, sendNewMessage: action.text }
-      }
       case "SEND-MESSAGE": {
-         return { ...state, massagesData: [...state.massagesData, { id: "11", message: state.sendNewMessage }], sendNewMessage: "" }
+         return { ...state, massagesData: [...state.massagesData, { id: "11", message: action.message }] }
       }
       default:
          return state
    }
+}
+
+export const sendMessageAC = (message: string): sendMessageAction => {
+   return { type: "SEND-MESSAGE", message }
 }

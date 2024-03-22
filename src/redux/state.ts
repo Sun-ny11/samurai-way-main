@@ -29,7 +29,6 @@ export type profilePageType = {
 export type dialogsPageType = {
    massagesData: massagesDataType[]
    usersData: userDataType[]
-   sendNewMessage: string
 }
 export type filterActionType = addPostAction | updateTaskAction | sendMessageAction | updateMessageAction
 
@@ -43,6 +42,7 @@ export type updateTaskAction = {
 
 type sendMessageAction = {
    type: "SEND-MESSAGE"
+   message: string
 
 }
 type updateMessageAction = {
@@ -142,9 +142,4 @@ export const store = {
 // export const updateTaskAC = (text: string): updateTaskAction => {
 //    return { type: "UPDATE-NEW-POST", text: text }
 // }
-export const sendMessageAC = (): sendMessageAction => {
-   return { type: "SEND-MESSAGE" }
-}
-export const updateMessageAC = (text: string): updateMessageAction => {
-   return { type: "UPDATE-MESSAGE", text: text }
-}
+

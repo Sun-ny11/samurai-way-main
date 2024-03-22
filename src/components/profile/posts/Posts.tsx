@@ -1,37 +1,21 @@
 import React, { FC, RefObject } from "react";
 import { Post } from "./post/Post";
 import { postDataType } from "../../../redux/state";
+import { PostsForm } from "./PostsForm";
 
 
 type PostsType = {
    postsData: postDataType[]
-   newPostText: string
-   newPostBody: (body: string) => void
-   sendPostOnClick: () => void
+   sendPost: (text: string) => void
 
 }
 
-export const Posts: FC<PostsType> = ({ postsData, newPostText, newPostBody, sendPostOnClick }) => {
-
-   let newPostRef: RefObject<HTMLTextAreaElement> = React.createRef();
-   const onClickHandler = () => {
-
-      sendPostOnClick()
-   }
-
-   const onChangeHandler = () => {
-      const text = newPostRef.current?.value
-      if (text) {
-         newPostBody(text)
-      }
-   }
+export const Posts: FC<PostsType> = ({ postsData, sendPost }) => {
 
    return (
       <div>
          <div>
-            <div>new post</div>
-            <textarea onChange={onChangeHandler} ref={newPostRef} name="Post New" value={newPostText}></textarea>
-            <button onClick={onClickHandler}>+</button>
+            <PostsForm sendPost={sendPost} />
             {postsData.map(el => {
                return (
                   <Post key={el.id} message={el.message} />
