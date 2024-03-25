@@ -1,6 +1,7 @@
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { Input } from "../common/formControls/FormControls";
 import { required } from "../../utils/validators";
+import { Redirect } from "react-router-dom";
 
 export type FormDataType = {
    email: string
@@ -14,10 +15,10 @@ export const LoginForm = (props: InjectedFormProps<FormDataType>) => {
       <form onSubmit={props.handleSubmit}>
          <p>Login</p>
          <div>
-            <Field placeholder="email" name={"email"} component={Input} validate={[required]}/>
+            <Field placeholder="email" name={"email"} component={Input} validate={[required]} />
          </div>
          <div>
-            <Field placeholder="Password" name={"password"} component={Input} validate={[required]}/>
+            <Field placeholder="Password" name={"password"} component={Input} validate={[required]} />
          </div>
          <div>
             <Field type="checkbox" name={"rememberMe"} component={Input} /> remember me
@@ -37,6 +38,8 @@ const LoginReduxForm = reduxForm<FormDataType>({
 
 type LoginProps = {
    loginThunk: (data: FormDataType) => void
+   isAuth: boolean
+
 }
 
 export const Login = (props: LoginProps) => {
@@ -44,6 +47,11 @@ export const Login = (props: LoginProps) => {
    const onSubmit = (formData: FormDataType) => {
       props.loginThunk(formData)
    }
+
+   if (props.isAuth) {
+      return <Redirect to={"profile"} />
+   }
+   
    return (
       <>
          <h1>Login</h1>

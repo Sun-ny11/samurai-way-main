@@ -23,17 +23,17 @@ const initialState = {
 export const authReducer = (state: stateAuthType = initialState, action: actionAuthType): stateAuthType => {
    switch (action.type) {
       case "SET-USER-DATA": {
-         return { ...state, ...action.data, isAuth: true }
+         return { ...state, ...action.payload}
       }
       default:
          return state
    }
 }
 
-export const setUserData = (id: number, email: string, login: string) => {
+export const setUserData = (id: number, email: string, login: string, isAuth: boolean) => {
    return {
       type: "SET-USER-DATA",
-      data: { id, email, login }
+      payload: { id, email, login, isAuth }
    } as const
 }
 
@@ -43,15 +43,27 @@ export const authorization = () => (dispatch: Dispatch) => {
          if (data.resultCode === 0) {
             const { id, email, login } = data.data
 
-            dispatch(setUserData(id, email, login))
+            dispatch(setUserData(id, email, login, true))
          }
       })
 }
 
 export const loginThunk = (data: FormDataType) => async (dispatch: ThunkDispatch<AppRootReducerType, null, AppAllReducerType>) => {
-   
+
    return await authApi.login(data)
       .then(res => {
-         dispatch(authorization())
+         if (res.data.resultCode === 0) {
+            dispatch(authorization())
+         }
+      })
+}
+
+export const logoutThunk = () => async (dispatch: Dispatch) => {
+
+   return await authApi.logout()
+      .then(res => {
+         if (res.data.resultCode === 0) {
+            dispatch(setUserData(0, "", "", false))
+         }
       })
 }

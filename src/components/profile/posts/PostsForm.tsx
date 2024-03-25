@@ -13,7 +13,7 @@ export const Form = (props: InjectedFormProps<FormType>) => {
    return (
       <form onSubmit={props.handleSubmit}>
          <div>
-            <Field placeholder="textarea" name={"post"} component={Textarea} validate={[required, maxLength30]} />
+            <Field placeholder="textarea" name={"post"} component={Textarea} validate={[required, maxLength30]}  />
          </div>
 
          <button>+</button>

@@ -46,7 +46,10 @@ export const authApi = {
       return instance.get(`/auth/me`)
          .then(res => res.data)
    },
-   login(data:FormDataType) {
+   login(data: FormDataType) {
       return instance.post("auth/login", data)
+   },
+   logout() {
+      return instance.delete("auth/login")
    }
 }

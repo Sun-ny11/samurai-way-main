@@ -2,7 +2,7 @@ import React from "react";
 import { Header } from "./Header";
 import { AppRootReducerType } from "../../redux/store";
 import { connect } from "react-redux";
-import { authorization } from "../../redux/auth-reducer";
+import { authorization, logoutThunk } from "../../redux/auth-reducer";
 
 // type PathParamsType = {//ожидаемые параметры
 //    userId: string,
@@ -15,6 +15,7 @@ type mapStateToProps = {
 
 type mapDespatchToProps = {
    authorization: () => void
+   logoutThunk: () => void
 }
 
 type ownPropsType = mapDespatchToProps & mapStateToProps
@@ -43,4 +44,4 @@ const mapStateToProps = (state: AppRootReducerType) => {
    }
 }
 
-export const HeaderContainer = connect(mapStateToProps, { authorization })(ContainerComponent)
+export const HeaderContainer = connect(mapStateToProps, { authorization, logoutThunk })(ContainerComponent)
