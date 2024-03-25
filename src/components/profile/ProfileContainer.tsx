@@ -9,12 +9,15 @@ import { compose } from "redux";
 
 type PathParamsType = {//ожидаемые параметры
    userId: string,
+
 }
 
 type mapStateToPropsType = {
    profile: responseProfileType
    isAuth: boolean
    status: string
+   authorizedUserId: number
+
 }
 
 type mapDespatchToProps = {
@@ -35,7 +38,7 @@ export class ContainerComponent extends React.Component<ProfileProps> {
 
       let userId = this.props.match.params.userId
       if (!userId) {//если userId не указан в URLпараметре, (/profile)
-         userId = "29113" //будет id личного профиля
+         userId = String(this.props.authorizedUserId) //будет id личного профиля
       }
       this.props.goToProfileTC(+userId)
       this.props.getUserStatus(+userId)
@@ -55,7 +58,8 @@ const mapStateToProps = (state: AppRootReducerType): mapStateToPropsType => {
    return {
       profile: state.profilePage.profile,
       isAuth: state.auth.isAuth,
-      status: state.profilePage.status
+      status: state.profilePage.status,
+      authorizedUserId: state.auth.id
    }
 }
 export const ProfileContainer = compose<React.ComponentType>(

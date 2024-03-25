@@ -1,8 +1,10 @@
+
 import { Dispatch } from 'redux';
 import { authApi } from "../api/api"
 import { FormDataType } from '../components/login/Login';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppAllReducerType, AppRootReducerType } from './store';
+import { stopSubmit } from 'redux-form';
 
 export type stateAuthType = {
    id: number
@@ -23,7 +25,7 @@ const initialState = {
 export const authReducer = (state: stateAuthType = initialState, action: actionAuthType): stateAuthType => {
    switch (action.type) {
       case "SET-USER-DATA": {
-         return { ...state, ...action.payload}
+         return { ...state, ...action.payload }
       }
       default:
          return state
@@ -54,6 +56,9 @@ export const loginThunk = (data: FormDataType) => async (dispatch: ThunkDispatch
       .then(res => {
          if (res.data.resultCode === 0) {
             dispatch(authorization())
+         } else {
+            const errorMessage = res.data.messages.length > 0 ? res.data.messages[0] : "Some error"
+            dispatch(stopSubmit("login", { _error: errorMessage }))
          }
       })
 }

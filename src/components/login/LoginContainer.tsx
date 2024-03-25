@@ -8,6 +8,7 @@ import { AppRootReducerType } from "../../redux/store";
 const mapStateToProps = (state: AppRootReducerType) => {
    return {
       isAuth: state.auth.isAuth
+      
    }
 }
 
