@@ -39,6 +39,9 @@ export class ContainerComponent extends React.Component<ProfileProps> {
       let userId = this.props.match.params.userId
       if (!userId) {//если userId не указан в URLпараметре, (/profile)
          userId = String(this.props.authorizedUserId) //будет id личного профиля
+         if (!userId){
+            this.props.history.push("/login")
+         }
       }
       this.props.goToProfileTC(+userId)
       this.props.getUserStatus(+userId)
@@ -65,5 +68,5 @@ const mapStateToProps = (state: AppRootReducerType): mapStateToPropsType => {
 export const ProfileContainer = compose<React.ComponentType>(
    connect(mapStateToProps, { goToProfileTC, getUserStatus, updateUserStatus }),
    withRouter,
-   WithAuthRedirect
+   // WithAuthRedirect
 )(ContainerComponent)

@@ -68,7 +68,7 @@ const mapStateToProps = (state: AppRootReducerType) => {
 }
 
 export const UsersContainer = compose<React.ComponentType>(
-   WithAuthRedirect,
+   
    connect(mapStateToProps, { changePage, getUsersTC, changePageTC })
 )(ContainerComponent)
 

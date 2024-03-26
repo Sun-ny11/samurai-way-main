@@ -14,7 +14,7 @@ type mapStateToProps = {
 }
 
 type mapDespatchToProps = {
-   authorization: () => void
+   
    logoutThunk: () => void
 }
 
@@ -25,9 +25,7 @@ type ownPropsType = mapDespatchToProps & mapStateToProps
 
 
 export class ContainerComponent extends React.Component<ownPropsType> {
-   componentDidMount(): void {
-      this.props.authorization()
-   }
+ 
    render() {
       return (
          <Header {...this.props} />
