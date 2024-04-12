@@ -7,9 +7,9 @@ import { useDispatch } from "react-redux";
 import { Paginator } from "./Paginator";
 
 type UsersProps = {
+  totalUsersCount: number;
+  pageSize: number;
   onClickChangePage: (page: number) => void;
-  pages: number[];
-  currentPage: number;
   items: userType[];
   followingInProgress: number[];
 };
@@ -27,12 +27,16 @@ export const Users: FC<UsersProps> = (props) => {
 
   return (
     <>
-      <Paginator onClickChangePage={props.onClickChangePage} pages={props.pages} currentPage={props.currentPage} />
+      <Paginator
+        totalUsersCount={props.totalUsersCount}
+        pageSize={props.pageSize}
+        onClickChangePage={props.onClickChangePage}
+      />
       {props.items.map((us) => {
         const isDisabled = props.followingInProgress.some((id) => us.id === id);
 
         return (
-          <div key={us.id}>
+          <div className={s.usersWrapper} key={us.id}>
             <span>
               <NavLink to={"/profile/" + us.id}>
                 <div>

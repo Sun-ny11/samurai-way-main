@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from "react";
-type ProfileStatusProps = {
+
+export type ProfileStatusProps = {
   status: string;
   updateUserStatus: (status: string) => void;
 };
